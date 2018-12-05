@@ -1,0 +1,86 @@
+<template>
+  <div class="list-terms__item-modal">
+    <div class="list-terms__item-modal-content">
+      <div class="list-terms__item-modal-top">
+        <div class="list-terms__item-modal-title">
+          {{title}}
+          <div class="modal-close">
+            <img src="../assets/img/close.svg" @click="hiddenModal">
+          </div>
+        </div>
+      </div>
+      <div class="list-terms__item-modal-middle">{{description}}</div>
+    </div>
+  </div>
+</template>
+<script>
+import { mapState } from "vuex";
+export default {
+  name: "Modal",
+
+  computed: mapState({
+    title: state => state.modal.title,
+    description: state => state.modal.description
+  }),
+  methods: {
+    hiddenModal() {
+      this.$store.commit("hiddenModal");
+    }
+  }
+};
+</script>
+<style>
+.list-terms__item-modal {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.list-terms__item-modal-content {
+  background-color: #fff;
+  margin: 5% 16px;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.list-terms__item-modal-top {
+  border-bottom: 1px solid #d8d8d8;
+}
+
+.list-terms__item-modal-title {
+  padding: 18px 50px 12px 17px;
+  display: block;
+  text-align: left;
+  font-size: 17px;
+  line-height: 20px;
+  color: #000000;
+  position: relative;
+}
+
+.modal-close {
+  padding: 18px 17px 12px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #979797;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.list-terms__item-modal-middle {
+  padding: 17px 15px;
+}
+
+.list-terms__item-modal-middle p {
+  margin-bottom: 5px;
+}
+</style>
+
