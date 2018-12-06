@@ -1,23 +1,45 @@
 <template>
-  <div class="list-terms__group">
-    <div class="list-terms__header-group">5</div>
-    <div class="list-terms__item_wrapper js-show-hide">
-      <div
-        class="list-terms__item"
-        data-title="5+"
-        data-description="Методика оценки личной эффективности работника"
-        @click="showModal('5+', 'Методика оценки личной эффективности работника')"
-      >
-        <div class="list-terms__item-title js-search">5+</div>
-        <div class="list-terms__item-subtitle">Методика оценки личной эффективности работника</div>
+  <div>
+    <div class="list-terms__group">
+      <div class="list-terms__header-group">5</div>
+      <div class="list-terms__item_wrapper js-show-hide">
+        <div
+          class="list-terms__item"
+          @click="showModal('5+', 'Методика оценки личной эффективности работника')"
+        >
+          <div class="list-terms__item-title js-search">5+</div>
+          <div class="list-terms__item-subtitle">Методика оценки личной эффективности работника</div>
+        </div>
+        <ButtonAddToFavorite/>
+      </div>
+    </div>
+
+    <div class="list-terms__group">
+      <div class="list-terms__header-group">A</div>
+      <div class="list-terms__item_wrapper js-show-hide">
+        <div
+          class="list-terms__item"
+          @click="showModal('ADR/АДР', 'Американская депозитарная расписка. Документ, подтверждающий право вкладчика на ценности, находящиеся на хранении в банке-депозитарии. Выпускается и обращается на рынке США')"
+        >
+          <div class="list-terms__item-title js-search">ADR/АДР</div>
+          <div
+            class="list-terms__item-subtitle"
+          >Американская депозитарная расписка. Документ, подтверждающий право вкладчика на ценности, находящиеся на хранении в банке-депозитарии. Выпускается и обращается на рынке США</div>
+        </div>
+
+        <ButtonAddToFavorite/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import ButtonAddToFavorite from "./ButtonAddToFavorite";
 export default {
   name: "ListTermsGroup",
+  components: {
+    ButtonAddToFavorite
+  },
   methods: {
     showModal(title, description) {
       this.$store.commit("showModal", {
@@ -36,13 +58,10 @@ export default {
 }
 
 .list-terms__item_wrapper {
-  display: block;
-
-  list-style: none;
-}
-
-.list-terms__item_wrapper {
   border-top: 1px solid #c8c7cc;
+  padding-right: 51px;
+  list-style: none;
+  position: relative;
 }
 
 .list-terms__item_wrapper_disable {

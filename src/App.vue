@@ -4,40 +4,40 @@
       <SearchBar/>
       <ListTermsGroup/>
       <ModalTerm v-if="displayModal"/>
-      <!-- <img alt="Vue logo" src="./assets/logo.png">
-      <HelloWorld msg="Welcome to Your Vue.js App"/>-->
+      <ButtonAddTerm/>
+      <ModalCreateTerm v-if="displayModalCreateTerm"/>
     </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
 import SearchBar from "./components/SearchBar";
 import ListTermsGroup from "./components/ListTermsGroup";
 import ModalTerm from "./components/ModalTerm";
+import ButtonAddTerm from "./components/ButtonAddTerm";
+import ModalCreateTerm from "./components/ModalCreateTerm";
 import { mapState } from "vuex";
 
 export default {
   name: "app",
   components: {
-    HelloWorld,
     SearchBar,
     ListTermsGroup,
-    ModalTerm
+    ModalTerm,
+    ButtonAddTerm,
+    ModalCreateTerm
   },
 
   computed: mapState({
-    displayModal: state => state.modal.display
+    displayModal: state => state.modal.display,
+    displayModalCreateTerm: state => state.modalCreateTerm.display
   }),
   methods: {
-    showModal(title, description) {
-      this.modal.title = title;
-      this.modal.description = description;
-    },
     sessionFromNative(sessionData) {
       console.log("Session Data: ");
       console.log(sessionData);
       this.$store.commit("setUserData", JSON.parse(sessionData));
+      this.$store.dispatch("fetchListTerms");
     }
   },
   mounted() {

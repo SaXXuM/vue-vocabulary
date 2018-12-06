@@ -4,12 +4,13 @@
       <div class="list-terms__item-modal-top">
         <div class="list-terms__item-modal-title">
           {{title}}
-          <div class="modal-close">
-            <img src="../assets/img/close.svg" @click="hiddenModal">
+          <div class="modal-close" @click="hiddenModal">
+            <img src="../assets/img/close.svg">
           </div>
         </div>
       </div>
       <div class="list-terms__item-modal-middle">{{description}}</div>
+      <div class="list-terms__item-modal-bottom">Добавить в избранное</div>
     </div>
   </div>
 </template>
@@ -29,7 +30,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .list-terms__item-modal {
   position: fixed;
   display: flex;
@@ -61,6 +62,7 @@ export default {
   text-align: left;
   font-size: 17px;
   line-height: 20px;
+  font-weight: normal;
   color: #000000;
   position: relative;
 }
@@ -81,6 +83,14 @@ export default {
 
 .list-terms__item-modal-middle p {
   margin-bottom: 5px;
+}
+.list-terms__item-modal-bottom {
+  border-top: 1px solid #c8c7cc;
+  text-align: center;
+  font-size: 16px;
+  color: #26a18f;
+  font-weight: normal;
+  padding: 12px 16px;
 }
 </style>
 
