@@ -9,7 +9,13 @@
       <div class="modal-create-term__middle">
         <template v-if="send">
           <div class="icon_wrapper">
-            <img src="../assets/img/complete-add-word.svg">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M37 26.871V7C37 4.79086 35.2091 3 33 3H9C6.79086 3 5 4.79086 5 7V39C5 41.2091 6.79086 43 9 43H21" stroke="#26A18F" stroke-width="4" stroke-linecap="round"/>
+<path d="M13 15H29" stroke="#373737" stroke-width="4" stroke-linecap="round"/>
+<path d="M13 25H23" stroke="#373737" stroke-width="4" stroke-linecap="round"/>
+<path d="M31 40L36 45L46 35" stroke="#4FAE9F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
           </div>
           <div class="modal-create-term__title">Спасибо</div>
           <div
@@ -107,6 +113,7 @@ export default {
   display: flex;
   justify-content: center;
   align-content: center;
+  align-items: center;
 }
 
 .modal-create-term__title {

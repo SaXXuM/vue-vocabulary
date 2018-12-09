@@ -1,12 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import instanceAPI from "./api/instance";
+import axios from "axios";
+/* import instanceAPI from "./api/instance";
 import userAPI from "./api/user";
-import objectAPI from "./api/object";
+import objectAPI from "./api/object"; */
 
 Vue.use(Vuex);
 
-const instance = function(store) {
+/* const instance = function(store) {
   const inst = instanceAPI(
     store.state.userData.baseUrl + store.state.userData.projectName,
     store.state.userData.sessionId
@@ -53,7 +54,7 @@ const instance = function(store) {
   });
 
   return inst;
-};
+}; */
 
 export default new Vuex.Store({
   state: {
@@ -61,6 +62,11 @@ export default new Vuex.Store({
       display: false,
       title: "",
       description: ""
+    },
+    displayLoader: true,
+    favoriteScreen: {
+      display: false,
+      text: "Избранное"
     },
     modalCreateTerm: {
       display: false
@@ -87,6 +93,9 @@ export default new Vuex.Store({
     setUserRefreshToken(state, refreshToken) {
       state.user.refreshToken = refreshToken;
     },
+    setListTerms(state, payload) {
+      state.listTerms = payload;
+    },
     hiddenModal(state) {
       state.modal.display = false;
       state.modal.title = "";
@@ -103,44 +112,40 @@ export default new Vuex.Store({
     hiddenModalHiddenTerm(state) {
       state.modalCreateTerm.display = false;
     },
-    setListTerms(state, payload) {
-      state.listTerms = payload;
+    toggleFavoriteScreen(state, payload) {
+      state.favoriteScreen.display = !state.favoriteScreen.display;
+      state.favoriteScreen.text = payload;
+    },
+    showLoader(state) {
+      state.displayLoader = true;
+    },
+    hideLoader(state) {
+      state.displayLoader = false;
     }
   },
   actions: {
     fetchListTerms(context) {
-      return new Promise((resolve, reject) => {
-        objectAPI
-          .objectsBySchemaIdGet(instance(context), "Dictionary", { take: -1 })
-          .then(res => {
-            if (res && res.data) {
-              return res.data.find(profile => {
-                return profile.schemaId === config.userProfileScheme;
-              });
-            } else {
-              reject();
-            }
-          })
-          .then(scheme => {
-            if (scheme) {
-              objectAPI
-                .objectsBySchemaIdByIdGet(
-                  instance(context),
-                  config.userProfileScheme,
-                  scheme.itemId
-                )
-                .then(response => {
-                  resolve(response);
-                })
-                .catch(error => {
-                  reject(error);
-                });
-            }
-          })
-          .catch(err => {
-            reject(err);
-          });
-      });
+      let { sessionId, baseUrl, projectName } = context.state.userData;
+      axios({
+        method: "get",
+        url:
+          baseUrl +
+          projectName +
+          "/objects/Dictionary?include=['title','html','id']&take=-1",
+        headers: {
+          "X-Appercode-Session-Token": sessionId,
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        }
+      })
+        .then(function(response) {
+          context.commit("setListTerms", response.data);
+          context.commit("hideLoader");
+        })
+        .catch(function(error) {
+          console.log(error);
+          context.commit("hideLoader");
+        });
     }
   }
 });

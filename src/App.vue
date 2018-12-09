@@ -1,12 +1,15 @@
 <template>
   <div id="app">
-    <div class="list-terms">
+    <Loader v-if="displayLoader"/>
+    <div class="list-terms" v-if="displayFavoriteScreen">
       <SearchBar/>
       <ListTermsGroup/>
       <ModalTerm v-if="displayModal"/>
       <ButtonAddTerm/>
       <ModalCreateTerm v-if="displayModalCreateTerm"/>
+      <ToggleFavoriteScreen/>
     </div>
+    <FavoriteScreen v-else/>
   </div>
 </template>
 
@@ -16,6 +19,9 @@ import ListTermsGroup from "./components/ListTermsGroup";
 import ModalTerm from "./components/ModalTerm";
 import ButtonAddTerm from "./components/ButtonAddTerm";
 import ModalCreateTerm from "./components/ModalCreateTerm";
+import ToggleFavoriteScreen from "./components/ToggleFavoriteScreen";
+import FavoriteScreen from "./components/FavoriteScreen";
+import Loader from "./components/Loader";
 import { mapState } from "vuex";
 
 export default {
@@ -25,12 +31,18 @@ export default {
     ListTermsGroup,
     ModalTerm,
     ButtonAddTerm,
-    ModalCreateTerm
+    ModalCreateTerm,
+    ToggleFavoriteScreen,
+    FavoriteScreen,
+    Loader
   },
 
   computed: mapState({
+    displayLoader: state => state.displayLoader,
     displayModal: state => state.modal.display,
-    displayModalCreateTerm: state => state.modalCreateTerm.display
+    displayModalCreateTerm: state => state.modalCreateTerm.display,
+    displayFavoriteScreen: state => !state.favoriteScreen.display,
+    userData: state => state.userData
   }),
   methods: {
     sessionFromNative(sessionData) {

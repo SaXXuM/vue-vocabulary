@@ -1,51 +1,42 @@
 <template>
-  <div>
-    <div class="list-terms__group">
-      <div class="list-terms__header-group">5</div>
-      <div class="list-terms__item_wrapper js-show-hide">
-        <div
-          class="list-terms__item"
-          @click="showModal('5+', 'Методика оценки личной эффективности работника')"
-        >
-          <div class="list-terms__item-title js-search">5+</div>
-          <div class="list-terms__item-subtitle">Методика оценки личной эффективности работника</div>
-        </div>
-        <ButtonAddToFavorite/>
-      </div>
-    </div>
-
-    <div class="list-terms__group">
-      <div class="list-terms__header-group">A</div>
-      <div class="list-terms__item_wrapper js-show-hide">
-        <div
-          class="list-terms__item"
-          @click="showModal('ADR/АДР', 'Американская депозитарная расписка. Документ, подтверждающий право вкладчика на ценности, находящиеся на хранении в банке-депозитарии. Выпускается и обращается на рынке США')"
-        >
-          <div class="list-terms__item-title js-search">ADR/АДР</div>
-          <div
-            class="list-terms__item-subtitle"
-          >Американская депозитарная расписка. Документ, подтверждающий право вкладчика на ценности, находящиеся на хранении в банке-депозитарии. Выпускается и обращается на рынке США</div>
-        </div>
-
-        <ButtonAddToFavorite/>
-      </div>
-    </div>
+  <div class="list-terms__group">
+    <template v-for="(item, index) in listTerms">
+      <HeaderGroup :title="headerTitle" :key="index" v-if="checkHeaderGroup(item.title.charAt(0))"/>
+      <Term
+        :key="item.id"
+        :title="item.title"
+        :description="item.html"
+        :firstLetter="item.title.charAt(0)"
+      />
+    </template>
   </div>
 </template>
 
 <script>
-import ButtonAddToFavorite from "./ButtonAddToFavorite";
+import Term from "./Term";
+import HeaderGroup from "./HeaderGroup";
+import { mapState } from "vuex";
+
 export default {
   name: "ListTermsGroup",
   components: {
-    ButtonAddToFavorite
+    Term,
+    HeaderGroup
   },
+  data() {
+    return { headerTitle: "1" };
+  },
+  computed: mapState({
+    listTerms: state => state.listTerms
+  }),
   methods: {
-    showModal(title, description) {
-      this.$store.commit("showModal", {
-        title: title,
-        description: description
-      });
+    checkHeaderGroup(itemFirstLetter) {
+      if (this.$data.headerTitle != itemFirstLetter) {
+        this.$data.headerTitle = itemFirstLetter;
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 };
@@ -67,7 +58,9 @@ export default {
 .list-terms__item_wrapper_disable {
   display: none;
 }
-
+.list-terms__group {
+  margin-bottom: 88px;
+}
 .list-terms__group:last-of-type {
   border-bottom: 1px solid #c8c7cc;
 }

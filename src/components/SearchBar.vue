@@ -1,6 +1,6 @@
 <template>
   <div class="list-terms__search">
-    <input autocomplete="off" id="search" type="text" onkeyup="search()" placeholder="Поиск">
+    <input autocomplete="off" id="search" type="text" onkeyup="" placeholder="Поиск">
   </div>
 </template>
 
