@@ -9,13 +9,29 @@
       <div class="modal-create-term__middle">
         <template v-if="send">
           <div class="icon_wrapper">
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M37 26.871V7C37 4.79086 35.2091 3 33 3H9C6.79086 3 5 4.79086 5 7V39C5 41.2091 6.79086 43 9 43H21" stroke="#26A18F" stroke-width="4" stroke-linecap="round"/>
-<path d="M13 15H29" stroke="#373737" stroke-width="4" stroke-linecap="round"/>
-<path d="M13 25H23" stroke="#373737" stroke-width="4" stroke-linecap="round"/>
-<path d="M31 40L36 45L46 35" stroke="#4FAE9F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 48 48"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M37 26.871V7C37 4.79086 35.2091 3 33 3H9C6.79086 3 5 4.79086 5 7V39C5 41.2091 6.79086 43 9 43H21"
+                stroke="#26A18F"
+                stroke-width="4"
+                stroke-linecap="round"
+              ></path>
+              <path d="M13 15H29" stroke="#373737" stroke-width="4" stroke-linecap="round"></path>
+              <path d="M13 25H23" stroke="#373737" stroke-width="4" stroke-linecap="round"></path>
+              <path
+                d="M31 40L36 45L46 35"
+                stroke="#4FAE9F"
+                stroke-width="4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
           </div>
           <div class="modal-create-term__title">Спасибо</div>
           <div
@@ -25,11 +41,16 @@
         <form v-else>
           <div class="group-input">
             <label for="newTermTitle">Название</label>
-            <input id="newTermTitle" type="text" placeholder="Введите название термина">
+            <input
+              v-model="title"
+              id="newTermTitle"
+              type="text"
+              placeholder="Введите название термина"
+            >
           </div>
           <div class="group-input">
             <label for="newTermDescription">Описание</label>
-            <textarea id="newTermDescription" placeholder="Опишите термин"></textarea>
+            <textarea v-model="html" id="newTermDescription" placeholder="Опишите термин"></textarea>
           </div>
           <div class="group-input">
             <button type="submit" @click.prevent="sendTerm">Отправить</button>
@@ -45,14 +66,21 @@ export default {
   name: "ModalCreateTerm",
   data() {
     return {
-      send: false
+      send: false,
+      title: "",
+      html: ""
     };
   },
   methods: {
     hiddenModalCreateTerm() {
       this.$store.commit("hiddenModalHiddenTerm");
     },
+
     sendTerm() {
+      this.$store.dispatch("sendTermToServer", {
+        title: this.$data.title,
+        html: this.$data.html
+      });
       this.send = true;
     }
   }

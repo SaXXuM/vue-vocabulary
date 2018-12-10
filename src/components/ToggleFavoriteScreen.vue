@@ -1,7 +1,7 @@
 <template>
   <div class="open-favorite" @click="showFavoriteScreen">
     <div class="open-favorite__title">{{text}}</div>
-    <div class="open-favorite__close">
+    <!-- <div class="open-favorite__close">
       <svg
         width="20"
         height="20"
@@ -16,7 +16,7 @@
           fill="white"
         ></path>
       </svg>
-    </div>
+    </div>-->
   </div>
 </template>
 

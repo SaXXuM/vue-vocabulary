@@ -50,6 +50,7 @@ export default {
       console.log(sessionData);
       this.$store.commit("setUserData", JSON.parse(sessionData));
       this.$store.dispatch("fetchListTerms");
+      this.$store.dispatch("fetchFavoriteListTerms");
     }
   },
   mounted() {

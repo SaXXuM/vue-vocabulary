@@ -81,7 +81,8 @@ export default new Vuex.Store({
       baseUrl: "",
       projectName: ""
     },
-    listTerms: {}
+    listTerms: [],
+    favoriteIds: {}
   },
   mutations: {
     setUserData(state, payload) {
@@ -96,26 +97,46 @@ export default new Vuex.Store({
     setListTerms(state, payload) {
       state.listTerms = payload;
     },
-    hiddenModal(state) {
-      state.modal.display = false;
-      state.modal.title = "";
-      state.modal.description = "";
+
+    addListTermsFavoriteParams(state) {
+      let listTerms = state.listTerms;
+      listTerms.forEach(item => (item.isFavorite = false));
     },
+
+    setFavorites(state, payload) {
+      state.favoriteIds = payload;
+      let listTerms = state.listTerms;
+      console.log(state.listTerms);
+      state.favoriteIds.forEach(itemFavorite => {
+        listTerms.findIndex(function(item) {
+          console.log(item.id == itemFavorite.objectId);
+        });
+      });
+    },
+
     showModal(state, payload) {
       state.modal.display = true;
       state.modal.title = payload.title;
       state.modal.description = payload.description;
     },
+    hiddenModal(state) {
+      state.modal.display = false;
+      state.modal.title = "";
+      state.modal.description = "";
+    },
+
     showModalCreateTerm(state) {
       state.modalCreateTerm.display = true;
     },
     hiddenModalHiddenTerm(state) {
       state.modalCreateTerm.display = false;
     },
+
     toggleFavoriteScreen(state, payload) {
       state.favoriteScreen.display = !state.favoriteScreen.display;
       state.favoriteScreen.text = payload;
     },
+
     showLoader(state) {
       state.displayLoader = true;
     },
@@ -131,7 +152,7 @@ export default new Vuex.Store({
         url:
           baseUrl +
           projectName +
-          "/objects/Dictionary?include=['title','html','id']&take=-1",
+          "/objects/Dictionary?include=['title','html','id']&take=-1&order=title",
         headers: {
           "X-Appercode-Session-Token": sessionId,
           "Content-Type": "application/json",
@@ -140,6 +161,59 @@ export default new Vuex.Store({
       })
         .then(function(response) {
           context.commit("setListTerms", response.data);
+          context.commit("addListTermsFavoriteParams");
+          context.commit("hideLoader");
+        })
+        .catch(function(error) {
+          console.log(error);
+          context.commit("hideLoader");
+        });
+    },
+    fetchFavoriteListTerms(context) {
+      context.commit("showLoader");
+      let { sessionId, baseUrl, projectName, userId } = context.state.userData;
+      axios({
+        method: "post",
+        url: baseUrl + projectName + "/objects/Favorites/query",
+        headers: {
+          "X-Appercode-Session-Token": sessionId,
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        data: {
+          where: {
+            userId: userId
+          }
+        }
+      })
+        .then(function(response) {
+          context.commit("setFavorites", response.data);
+          context.commit("hideLoader");
+        })
+        .catch(function(error) {
+          console.log(error);
+          context.commit("hideLoader");
+        });
+    },
+    sendTermToServer(context, payload) {
+      context.commit("showLoader");
+      let { sessionId, baseUrl, projectName } = context.state.userData;
+      let { title, html } = payload;
+      axios({
+        method: "post",
+        url: baseUrl + projectName + "/objects/NewTerms",
+        headers: {
+          "X-Appercode-Session-Token": sessionId,
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        data: {
+          title: title,
+          html: html
+        }
+      })
+        .then(function(response) {
+          console.log(response);
           context.commit("hideLoader");
         })
         .catch(function(error) {

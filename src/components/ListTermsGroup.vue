@@ -1,7 +1,7 @@
 <template>
   <div class="list-terms__group">
     <template v-for="(item, index) in listTerms">
-      <HeaderGroup :title="headerTitle" :key="index" v-if="checkHeaderGroup(item.title.charAt(0))"/>
+      <HeaderGroup v-if="checkHeaderGroup(item.title.charAt(0))" :title="headerTitle" :key="index"/>
       <Term
         :key="item.id"
         :title="item.title"
@@ -24,7 +24,7 @@ export default {
     HeaderGroup
   },
   data() {
-    return { headerTitle: "1" };
+    return { headerTitle: "" };
   },
   computed: mapState({
     listTerms: state => state.listTerms
@@ -32,7 +32,7 @@ export default {
   methods: {
     checkHeaderGroup(itemFirstLetter) {
       if (this.$data.headerTitle != itemFirstLetter) {
-        this.$data.headerTitle = itemFirstLetter;
+        this.headerTitle = itemFirstLetter;
         return true;
       } else {
         return false;
