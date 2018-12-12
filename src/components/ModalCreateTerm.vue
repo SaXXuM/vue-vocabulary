@@ -3,11 +3,74 @@
     <div class="modal-create-term">
       <div class="modal-create-term__top">Добавить термин
         <div class="modal-close" @click="hiddenModalCreateTerm">
-          <img src="../assets/img/close.svg">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            <title>Group 4</title>
+            <desc>Created using Figma</desc>
+            <g id="Canvas" transform="translate(-6846 2836)">
+              <g id="Group 4">
+                <g id="Rectangle 17">
+                  <use
+                    xlink:href="#path0_fill"
+                    transform="matrix(0.707107 0.707107 -0.707107 0.707107 6848.34 -2835.07)"
+                    fill="#D8D8D8"
+                  ></use>
+                  <mask id="mask0_outline_ins">
+                    <use
+                      xlink:href="#path0_fill"
+                      fill="white"
+                      transform="matrix(0.707107 0.707107 -0.707107 0.707107 6848.34 -2835.07)"
+                    ></use>
+                  </mask>
+                  <g mask="url(#mask0_outline_ins)">
+                    <use
+                      xlink:href="#path1_stroke_2x"
+                      transform="matrix(0.707107 0.707107 -0.707107 0.707107 6848.34 -2835.07)"
+                      fill="#979797"
+                    ></use>
+                  </g>
+                </g>
+                <g id="Rectangle 17">
+                  <use
+                    xlink:href="#path0_fill"
+                    transform="matrix(-0.707107 0.707107 -0.707107 -0.707107 6861.07 -2833.66)"
+                    fill="#D8D8D8"
+                  ></use>
+                  <mask id="mask1_outline_ins">
+                    <use
+                      xlink:href="#path0_fill"
+                      fill="white"
+                      transform="matrix(-0.707107 0.707107 -0.707107 -0.707107 6861.07 -2833.66)"
+                    ></use>
+                  </mask>
+                  <g mask="url(#mask1_outline_ins)">
+                    <use
+                      xlink:href="#path1_stroke_2x"
+                      transform="matrix(-0.707107 0.707107 -0.707107 -0.707107 6861.07 -2833.66)"
+                      fill="#979797"
+                    ></use>
+                  </g>
+                </g>
+              </g>
+            </g>
+            <defs>
+              <path id="path0_fill" fill-rule="evenodd" d="M 0 0L 18 0L 18 2L 0 2L 0 0Z"></path>
+              <path
+                id="path1_stroke_2x"
+                d="M 0 0L 0 -1L -1 -1L -1 0L 0 0ZM 18 0L 19 0L 19 -1L 18 -1L 18 0ZM 18 2L 18 3L 19 3L 19 2L 18 2ZM 0 2L -1 2L -1 3L 0 3L 0 2ZM 0 1L 18 1L 18 -1L 0 -1L 0 1ZM 17 0L 17 2L 19 2L 19 0L 17 0ZM 18 1L 0 1L 0 3L 18 3L 18 1ZM 1 2L 1 0L -1 0L -1 2L 1 2Z"
+              ></path>
+            </defs>
+          </svg>
         </div>
       </div>
       <div class="modal-create-term__middle">
-        <template v-if="send">
+        <template v-if="sended">
           <div class="icon_wrapper">
             <svg
               width="48"
@@ -62,18 +125,24 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "ModalCreateTerm",
   data() {
     return {
-      send: false,
       title: "",
       html: ""
     };
   },
+  computed: {
+    ...mapState({
+      sended: state => state.modalCreateTerm.sended
+    })
+  },
   methods: {
     hiddenModalCreateTerm() {
-      this.$store.commit("hiddenModalHiddenTerm");
+      this.$store.commit("hiddenModalCreateTerm");
     },
 
     sendTerm() {
@@ -81,7 +150,6 @@ export default {
         title: this.$data.title,
         html: this.$data.html
       });
-      this.send = true;
     }
   }
 };

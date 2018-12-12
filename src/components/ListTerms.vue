@@ -1,13 +1,9 @@
 <template>
   <div class="list-terms__group">
     <template v-for="(item, index) in listTerms">
-      <HeaderGroup v-if="checkHeaderGroup(item.title.charAt(0))" :title="headerTitle" :key="index"/>
-      <Term
-        :key="item.id"
-        :title="item.title"
-        :description="item.html"
-        :firstLetter="item.title.charAt(0)"
-      />
+      <!--       <HeaderGroup v-if="checkHeaderGroup(item.title.charAt(0))" :title="headerTitle" :key="index"/>
+      -->
+      <Term :key="item.id" :id="item.id" :title="item.title" :description="item.html"/>
     </template>
   </div>
 </template>
@@ -18,21 +14,24 @@ import HeaderGroup from "./HeaderGroup";
 import { mapState } from "vuex";
 
 export default {
-  name: "ListTermsGroup",
+  name: "ListTerms",
   components: {
     Term,
     HeaderGroup
   },
   data() {
-    return { headerTitle: "" };
+    return {};
   },
-  computed: mapState({
-    listTerms: state => state.listTerms
-  }),
+  computed: {
+    /* groupedListTerm() {}, */
+    ...mapState({
+      listTerms: state => state.listTerms
+    })
+  },
   methods: {
     checkHeaderGroup(itemFirstLetter) {
       if (this.$data.headerTitle != itemFirstLetter) {
-        this.headerTitle = itemFirstLetter;
+        this.$data.headerTitle = itemFirstLetter;
         return true;
       } else {
         return false;
@@ -60,6 +59,7 @@ export default {
 }
 .list-terms__group {
   margin-bottom: 88px;
+  border-bottom: 1px solid #c8c7cc;
 }
 .list-terms__group:last-of-type {
   border-bottom: 1px solid #c8c7cc;

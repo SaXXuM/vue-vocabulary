@@ -4,7 +4,7 @@
       <div class="list-terms__item-title">{{title}}</div>
       <div class="list-terms__item-subtitle">{{description}}</div>
     </div>
-    <ButtonAddToFavorite/>
+    <ButtonAddToFavorite :id="id"/>
   </div>
 </template>
 
@@ -18,7 +18,7 @@ export default {
   props: {
     title: String,
     description: String,
-    firstLetter: String
+    id: String
   },
   methods: {
     showModal(title, description) {

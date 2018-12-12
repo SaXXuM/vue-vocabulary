@@ -1,21 +1,21 @@
 <template>
   <div id="app">
     <Loader v-if="displayLoader"/>
-    <div class="list-terms" v-if="displayFavoriteScreen">
+    <div class="list-terms" v-show="displayFavoriteScreen">
       <SearchBar/>
-      <ListTermsGroup/>
+      <ListTerms/>
       <ModalTerm v-if="displayModal"/>
       <ButtonAddTerm/>
       <ModalCreateTerm v-if="displayModalCreateTerm"/>
       <ToggleFavoriteScreen/>
     </div>
-    <FavoriteScreen v-else/>
+    <FavoriteScreen v-show="!displayFavoriteScreen"/>
   </div>
 </template>
 
 <script>
 import SearchBar from "./components/SearchBar";
-import ListTermsGroup from "./components/ListTermsGroup";
+import ListTerms from "./components/ListTerms";
 import ModalTerm from "./components/ModalTerm";
 import ButtonAddTerm from "./components/ButtonAddTerm";
 import ModalCreateTerm from "./components/ModalCreateTerm";
@@ -28,7 +28,7 @@ export default {
   name: "app",
   components: {
     SearchBar,
-    ListTermsGroup,
+    ListTerms,
     ModalTerm,
     ButtonAddTerm,
     ModalCreateTerm,
@@ -49,12 +49,15 @@ export default {
       console.log("Session Data: ");
       console.log(sessionData);
       this.$store.commit("setUserData", JSON.parse(sessionData));
-      this.$store.dispatch("fetchListTerms");
       this.$store.dispatch("fetchFavoriteListTerms");
+      this.$store.dispatch("fetchListTerms");
     }
   },
   mounted() {
     window.sessionFromNative = this.sessionFromNative;
+    sessionFromNative(
+      '{"baseUrl": "https://api.sbercode.appercode.com/v1/", "projectName": "sbercode_te","sessionId": "461fe11a-f22d-4477-8a3c-809ed95d95b0","refreshToken": "3339ec60-261e-4784-9c4f-0922904d1a76","userId":1}'
+    );
     /*
 			Example of usage:
 			sessionFromNative('{"baseUrl": "http://test.appercode.com/v1/", "projectName": "app2", "installationId": "",    "sessionId": "",    "refreshToken": "",    "userId": 1,    "language": "en",    "appVersion": "1"}');
@@ -68,11 +71,5 @@ export default {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-}
-.list-terms__elements {
-  margin-bottom: 73px;
-}
-.disable {
-  display: none !important;
 }
 </style>
