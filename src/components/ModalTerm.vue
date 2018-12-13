@@ -10,7 +10,10 @@
         </div>
       </div>
       <div class="list-terms__item-modal-middle">{{description}}</div>
-      <div class="list-terms__item-modal-bottom">Добавить в избранное</div>
+      <div
+        class="list-terms__item-modal-bottom"
+        @click="toggleFavorite(id)"
+      >{{isFavorite ? remove : add }}</div>
     </div>
   </div>
 </template>
@@ -18,14 +21,32 @@
 import { mapState } from "vuex";
 export default {
   name: "Modal",
-
+  data() {
+    return {
+      add: "Добавить в избранное",
+      remove: "Удалить из избранного"
+    };
+  },
   computed: mapState({
     title: state => state.modal.title,
-    description: state => state.modal.description
+    description: state => state.modal.description,
+    isFavorite: state => state.modal.isFavorite,
+    id: state => state.modal.id
   }),
   methods: {
     hiddenModal() {
       this.$store.commit("hiddenModal");
+    },
+    toggleFavorite(id) {
+      return this.isFavorite
+        ? this.deleteFavoriteTerm(id)
+        : this.addFavoriteTerm(id);
+    },
+    addFavoriteTerm(id) {
+      this.$store.dispatch("addFavoriteTerm", id);
+    },
+    deleteFavoriteTerm(id) {
+      this.$store.dispatch("deleteFavoriteTerm", id);
     }
   }
 };

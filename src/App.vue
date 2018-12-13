@@ -5,8 +5,9 @@
       <SearchBar/>
       <ListTerms/>
       <ModalTerm v-if="displayModal"/>
-      <ButtonAddTerm/>
+
       <ModalCreateTerm v-if="displayModalCreateTerm"/>
+      <ButtonAddTerm/>
       <ToggleFavoriteScreen/>
     </div>
     <FavoriteScreen v-show="!displayFavoriteScreen"/>
@@ -56,7 +57,7 @@ export default {
   mounted() {
     window.sessionFromNative = this.sessionFromNative;
     sessionFromNative(
-      '{"baseUrl": "https://api.sbercode.appercode.com/v1/", "projectName": "sbercode_te","sessionId": "461fe11a-f22d-4477-8a3c-809ed95d95b0","refreshToken": "3339ec60-261e-4784-9c4f-0922904d1a76","userId":1}'
+      '{"baseUrl": "https://api.sbercode.appercode.com/v1/", "projectName": "sbercode_te","sessionId": "a6aa96ab-ada3-4527-a86c-7d11a1e3ae52","refreshToken": "3339ec60-261e-4784-9c4f-0922904d1a76","userId":1}'
     );
     /*
 			Example of usage:

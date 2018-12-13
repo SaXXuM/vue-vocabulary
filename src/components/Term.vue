@@ -1,6 +1,6 @@
 <template>
   <div class="list-terms__item_wrapper">
-    <div class="list-terms__item" @click="showModal(title, description)">
+    <div class="list-terms__item" @click="showModal(id, title, description, isFavorite)">
       <div class="list-terms__item-title">{{title}}</div>
       <div class="list-terms__item-subtitle">{{description}}</div>
     </div>
@@ -18,14 +18,28 @@ export default {
   props: {
     title: String,
     description: String,
+    isFavorite: Boolean,
     id: String
   },
   methods: {
-    showModal(title, description) {
+    showModal(id, title, description, isFavorite) {
       this.$store.commit("showModal", {
+        id: id,
         title: title,
-        description: description
+        description: description,
+        isFavorite: isFavorite
       });
+    },
+    toggleFavorite(id) {
+      return this.Favorite
+        ? this.deleteFavoriteTerm(id)
+        : this.addFavoriteTerm(id);
+    },
+    addFavoriteTerm(id) {
+      this.$store.dispatch("addFavoriteTerm", id);
+    },
+    deleteFavoriteTerm(id) {
+      this.$store.dispatch("deleteFavoriteTerm", id);
     }
   }
 };

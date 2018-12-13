@@ -1,12 +1,27 @@
 <template>
   <div class="list-terms__search">
-    <input autocomplete="off" id="search" type="text" onkeyup="" placeholder="Поиск">
+    <input
+      autocomplete="off"
+      id="search"
+      type="text"
+      v-model="searchValue"
+      @keyup="setSearchValue"
+      placeholder="Поиск"
+    >
   </div>
 </template>
 
 <script>
 export default {
-  name: "SearchBar"
+  name: "SearchBar",
+  data() {
+    return { searchValue: "" };
+  },
+  methods: {
+    setSearchValue() {
+      this.$store.commit("setSearchValue", this.searchValue);
+    }
+  }
 };
 </script>
 

@@ -6,10 +6,13 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    searchValue: "",
     modal: {
       display: false,
+      id: "",
       title: "",
-      description: ""
+      description: "",
+      isFavorite: false
     },
     displayLoader: true,
     favoriteScreen: {
@@ -43,9 +46,17 @@ export default new Vuex.Store({
     setUserRefreshToken(state, refreshToken) {
       state.user.refreshToken = refreshToken;
     },
+
+    setSearchValue(state, payload) {
+      state.searchValue = payload;
+    },
+
     setListTerms(state, payload) {
       state.listTerms = payload;
-      state.listTerms.forEach(item => Vue.set(item, "isFavorite", false));
+      state.listTerms.forEach(item => {
+        Vue.set(item, "isFavorite", false);
+        Vue.set(item, "display", true);
+      });
     },
 
     createFavoritesIds(state, payload) {
@@ -76,8 +87,10 @@ export default new Vuex.Store({
 
     showModal(state, payload) {
       state.modal.display = true;
+      state.modal.id = payload.id;
       state.modal.title = payload.title;
       state.modal.description = payload.description;
+      state.modal.isFavorite = payload.isFavorite;
     },
     hiddenModal(state) {
       state.modal.display = false;
@@ -173,6 +186,7 @@ export default new Vuex.Store({
       })
         .then(function() {
           context.commit("addToFavorite", payload);
+          context.state.modal.isFavorite = true;
           context.commit("hideLoader");
         })
         .catch(function() {
@@ -194,6 +208,7 @@ export default new Vuex.Store({
       })
         .then(function() {
           context.commit("deleteFromFavorite", payload);
+          context.state.modal.isFavorite = false;
           context.commit("hideLoader");
         })
         .catch(function() {

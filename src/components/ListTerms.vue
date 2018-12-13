@@ -1,9 +1,16 @@
 <template>
   <div class="list-terms__group">
-    <template v-for="(item, index) in listTerms">
+    <template v-for="(item, index) in filtredListTerms">
       <!--       <HeaderGroup v-if="checkHeaderGroup(item.title.charAt(0))" :title="headerTitle" :key="index"/>
       -->
-      <Term :key="item.id" :id="item.id" :title="item.title" :description="item.html"/>
+      <Term
+        v-show="item.display"
+        :key="item.id"
+        :id="item.id"
+        :title="item.title"
+        :description="item.html"
+        :isFavorite="item.isFavorite"
+      />
     </template>
   </div>
 </template>
@@ -23,10 +30,41 @@ export default {
     return {};
   },
   computed: {
-    /* groupedListTerm() {}, */
     ...mapState({
-      listTerms: state => state.listTerms
-    })
+      listTerms: state => state.listTerms,
+      searchValue: state => state.searchValue
+    }),
+    filtredListTerms() {
+      let array = this.listTerms.map(item => {
+        if (item.title.indexOf(this.searchValue) != -1) {
+          item.display = true;
+          return item;
+        } else {
+          item.display = false;
+          return item;
+        }
+      });
+      return array;
+    },
+    groupedListTerm() {
+      let letter = "";
+      let array = [];
+      let filtredListTerms = this.filtredListTerms;
+      filtredListTerms.forEach(item => {
+        if (item.title.charAt(0) != letter) {
+          letter = item.title.charAt(0);
+          array.push({
+            title: item.title.charAt(0),
+            isTitle: true
+          });
+        }
+
+        item.title = false;
+        array.push(item);
+      });
+
+      return array;
+    }
   },
   methods: {
     checkHeaderGroup(itemFirstLetter) {
