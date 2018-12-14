@@ -15,7 +15,7 @@
 }
 .loader {
   border: 6px solid #b5b5b5;
-  border-top: 6px solid #6dc746;
+  border-top: 6px solid #26a18f;
   border-radius: 50%;
   animation: spin 2s linear infinite;
   position: absolute;

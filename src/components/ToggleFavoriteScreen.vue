@@ -1,6 +1,6 @@
 <template>
   <div class="open-favorite" @click="showFavoriteScreen">
-    <div class="open-favorite__title">{{text}}</div>
+    <div class="open-favorite__title">{{text}}: {{lengthFavorite}}</div>
     <!-- <div class="open-favorite__close">
       <svg
         width="20"
@@ -24,9 +24,15 @@
 import { mapState } from "vuex";
 export default {
   name: "OpenFavorite",
-  computed: mapState({
-    text: state => state.favoriteScreen.text
-  }),
+  computed: {
+    ...mapState({
+      text: state => state.favoriteScreen.text,
+      listTerms: state => state.listTerms
+    }),
+    lengthFavorite() {
+      return this.listTerms.filter(item => item.isFavorite == true).length;
+    }
+  },
   methods: {
     showFavoriteScreen() {
       this.$store.commit("toggleFavoriteScreen", "Термины");
@@ -47,7 +53,7 @@ export default {
   margin-left: -95px;
   min-width: 190px;
   height: 48px;
-  background-color: #6dc746;
+  background-color: #26a18f;
   border-radius: 24px;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.24), 0px 0px 8px rgba(0, 0, 0, 0.12);
 }

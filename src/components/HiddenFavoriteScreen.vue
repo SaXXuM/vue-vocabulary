@@ -1,7 +1,7 @@
 <template>
-	<div class="hidden-favorite" @click="showFavoriteScreen">
-		<div class="hidden-favorite__title" >{{text}}</div>
-	</div>
+  <div class="hidden-favorite" @click="showFavoriteScreen">
+    <div class="hidden-favorite__title">{{text}}</div>
+  </div>
 </template>
 
 <script>
@@ -31,7 +31,7 @@ export default {
   margin-left: -95px;
   min-width: 190px;
   height: 48px;
-  background-color: #6dc746;
+  background-color: #26a18f;
   border-radius: 24px;
 }
 .hidden-favorite__title {

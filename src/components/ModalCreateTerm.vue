@@ -183,7 +183,7 @@ export default {
   text-align: left;
   font-size: 17px;
   line-height: 20px;
-  font-weight: normal;
+  font-weight: bold;
   color: #000000;
   position: relative;
 }
@@ -245,6 +245,7 @@ export default {
   border: 1px solid #c7c1cc;
   border-radius: 4px;
   padding: 12px 16px;
+  -webkit-appearance: none;
 }
 
 .group-input textarea {
@@ -255,6 +256,7 @@ export default {
   border: 1px solid #c7c1cc;
   border-radius: 4px;
   padding: 12px 16px;
+  -webkit-appearance: none;
 }
 .group-input button {
   padding: 14px 16px;

@@ -51,7 +51,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style >
 .list-terms__item-modal {
   position: fixed;
   display: flex;
@@ -83,7 +83,7 @@ export default {
   text-align: left;
   font-size: 17px;
   line-height: 20px;
-  font-weight: normal;
+  font-weight: bold;
   color: #000000;
   position: relative;
 }

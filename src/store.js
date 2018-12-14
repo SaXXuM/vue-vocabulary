@@ -191,8 +191,6 @@ export default new Vuex.Store({
         });
     },
     addFavoriteTerm(context, payload) {
-      context.commit("showLoader");
-
       let { sessionId, baseUrl, projectName } = context.state.userData;
       axios({
         method: "post",
@@ -214,7 +212,6 @@ export default new Vuex.Store({
     },
 
     deleteFavoriteTerm(context, payload) {
-      context.commit("showLoader");
       let { sessionId, baseUrl, projectName } = context.state.userData;
       axios({
         method: "delete",
