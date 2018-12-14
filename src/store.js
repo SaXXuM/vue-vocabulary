@@ -123,6 +123,25 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    loginByRefreshToken(context) {
+      let { sessionId, baseUrl, projectName } = context;
+      axios({
+        method: "post",
+        url: baseUrl + projectName + "/login/byToken",
+        headers: {
+          "X-Appercode-Session-Token": sessionId,
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        }
+      })
+        .then(function(response) {
+          context.commit("setUserSessionId", response.sessionId);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+
     fetchListTerms(context) {
       let { sessionId, baseUrl, projectName } = context.state.userData;
       axios({
@@ -143,7 +162,7 @@ export default new Vuex.Store({
           context.commit("hideLoader");
         })
         .catch(function(error) {
-          console.log(error);
+          console.log(error.response.status);
           context.commit("hideLoader");
         });
     },

@@ -1,30 +1,17 @@
 <template>
-  <div class="list-terms__group">
-    <template v-for="(item, index) in filtredListTerms">
-      <!--       <HeaderGroup v-if="checkHeaderGroup(item.title.charAt(0))" :title="headerTitle" :key="index"/>
-      -->
-      <Term
-        v-show="item.display"
-        :key="item.id"
-        :id="item.id"
-        :title="item.title"
-        :description="item.html"
-        :isFavorite="item.isFavorite"
-      />
-    </template>
+  <div class="list-terms">
+    <GroupTerms v-for="(key, value) in groupedListTerm" :key="value" :header="value" :terms="key"/>
   </div>
 </template>
 
 <script>
-import Term from "./Term";
-import HeaderGroup from "./HeaderGroup";
+import GroupTerms from "./GroupTerms";
 import { mapState } from "vuex";
 
 export default {
   name: "ListTerms",
   components: {
-    Term,
-    HeaderGroup
+    GroupTerms
   },
   data() {
     return {};
@@ -36,7 +23,7 @@ export default {
     }),
     filtredListTerms() {
       let array = this.listTerms.map(item => {
-        if (item.title.indexOf(this.searchValue) != -1) {
+        if (item.title.toLowerCase().indexOf(this.searchValue) != -1) {
           item.display = true;
           return item;
         } else {
@@ -47,23 +34,16 @@ export default {
       return array;
     },
     groupedListTerm() {
-      let letter = "";
-      let array = [];
       let filtredListTerms = this.filtredListTerms;
+      let listForRender = {};
       filtredListTerms.forEach(item => {
-        if (item.title.charAt(0) != letter) {
-          letter = item.title.charAt(0);
-          array.push({
-            title: item.title.charAt(0),
-            isTitle: true
-          });
+        if (listForRender[item.title.charAt(0)] == undefined) {
+          listForRender[item.title.charAt(0)] = [];
         }
-
-        item.title = false;
-        array.push(item);
+        listForRender[item.title.charAt(0)].push(item);
       });
 
-      return array;
+      return listForRender;
     }
   },
   methods: {
@@ -80,6 +60,10 @@ export default {
 </script>
 
 <style>
+.list-terms {
+  border-bottom: 0.5px solid #c8c7cc;
+}
+
 .list-terms__item {
   display: block;
   text-decoration: none;
@@ -90,17 +74,6 @@ export default {
   padding-right: 51px;
   list-style: none;
   position: relative;
-}
-
-.list-terms__item_wrapper_disable {
-  display: none;
-}
-.list-terms__group {
-  margin-bottom: 88px;
-  border-bottom: 1px solid #c8c7cc;
-}
-.list-terms__group:last-of-type {
-  border-bottom: 1px solid #c8c7cc;
 }
 
 .list-terms__header-group {

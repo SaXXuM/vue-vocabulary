@@ -62,10 +62,6 @@ export default {
   display: none;
 }
 
-.list-terms__group:last-of-type {
-  border-bottom: 1px solid #c8c7cc;
-}
-
 .list-terms__item-title {
   padding-top: 0.75em;
   padding-left: 16px;

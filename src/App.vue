@@ -56,9 +56,9 @@ export default {
   },
   mounted() {
     window.sessionFromNative = this.sessionFromNative;
-    sessionFromNative(
-      '{"baseUrl": "https://api.sbercode.appercode.com/v1/", "projectName": "sbercode_te","sessionId": "a6aa96ab-ada3-4527-a86c-7d11a1e3ae52","refreshToken": "3339ec60-261e-4784-9c4f-0922904d1a76","userId":1}'
-    );
+    /*     sessionFromNative(
+      '{"baseUrl": "https://api.sbercode.appercode.com/v1/", "projectName": "sbercode_te","sessionId": "1ec28a99-1625-4a60-99f4-182f372ce1eb","refreshToken": "ca383ac6-b2c9-48eb-8560-eaa41d0f66ce","userId":1}'
+    ); */
     /*
 			Example of usage:
 			sessionFromNative('{"baseUrl": "http://test.appercode.com/v1/", "projectName": "app2", "installationId": "",    "sessionId": "",    "refreshToken": "",    "userId": 1,    "language": "en",    "appVersion": "1"}');
@@ -72,5 +72,8 @@ export default {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+}
+#app {
+  margin-bottom: 88px;
 }
 </style>

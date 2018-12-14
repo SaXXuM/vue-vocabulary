@@ -4,7 +4,8 @@
       autocomplete="off"
       id="search"
       type="text"
-      v-model="searchValue"
+			:searchValue="searchValue"
+      @input="event=>searchValue=event.target.value"
       @keyup="setSearchValue"
       placeholder="Поиск"
     >
@@ -19,7 +20,10 @@ export default {
   },
   methods: {
     setSearchValue() {
-      this.$store.commit("setSearchValue", this.searchValue);
+      this.$store.commit(
+        "setSearchValue",
+        this.searchValue.toLowerCase().trim()
+      );
     }
   }
 };

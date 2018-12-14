@@ -1,7 +1,13 @@
 <template>
-  <div class="list-terms__group">
+  <div class="list-terms">
     <template v-for="item in favoriteListTerms">
-      <Term :key="item.id" :id="item.id" :title="item.title" :description="item.html"/>
+      <Term
+        :key="item.id"
+        :id="item.id"
+        :title="item.title"
+        :description="item.html"
+        :isFavorite="item.isFavorite"
+      />
     </template>
   </div>
 </template>
@@ -26,11 +32,4 @@ export default {
 };
 </script>
 
-<style>
-.list-terms__group {
-  margin-bottom: 88px;
-}
-.list-terms__group:last-of-type {
-  border-bottom: 1px solid #c8c7cc;
-}
-</style>
+

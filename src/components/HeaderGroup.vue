@@ -12,10 +12,6 @@ export default {
 </script>
 
 <style>
-.list-terms__group:last-of-type {
-  border-bottom: 1px solid #c8c7cc;
-}
-
 .list-terms__header-group {
   display: block;
   margin: 0;
