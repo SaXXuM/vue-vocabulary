@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <AppError/>
     <Loader v-if="displayLoader"/>
     <div class="list-terms" v-show="displayFavoriteScreen">
       <SearchBar/>
@@ -15,6 +16,7 @@
 </template>
 
 <script>
+import AppError from "./components/AppError";
 import SearchBar from "./components/SearchBar";
 import ListTerms from "./components/ListTerms";
 import ModalTerm from "./components/ModalTerm";
@@ -35,7 +37,8 @@ export default {
     ModalCreateTerm,
     ToggleFavoriteScreen,
     FavoriteScreen,
-    Loader
+    Loader,
+    AppError
   },
 
   computed: mapState({
@@ -51,7 +54,6 @@ export default {
       console.log(sessionData);
       this.$store.commit("setUserData", JSON.parse(sessionData));
       this.$store.dispatch("fetchFavoriteListTerms");
-      this.$store.dispatch("fetchListTerms");
     }
   },
   mounted() {

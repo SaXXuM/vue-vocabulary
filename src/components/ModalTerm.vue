@@ -83,7 +83,7 @@ export default {
   text-align: left;
   font-size: 17px;
   line-height: 20px;
-  font-weight: bold;
+  font-weight: 700;
   color: #000000;
   position: relative;
 }

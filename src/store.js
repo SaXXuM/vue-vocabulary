@@ -7,6 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     searchValue: "",
+    displayLoader: true,
     modal: {
       display: false,
       id: "",
@@ -14,7 +15,6 @@ export default new Vuex.Store({
       description: "",
       isFavorite: false
     },
-    displayLoader: true,
     favoriteScreen: {
       display: false,
       text: "Избранное"
@@ -34,14 +34,18 @@ export default new Vuex.Store({
       projectName: ""
     },
     listTerms: [],
-    favoriteIds: {}
+    favoriteIds: {},
+    appError: {
+      status: false,
+      message: null
+    }
   },
   mutations: {
     setUserData(state, payload) {
       state.userData = payload;
     },
     setUserSessionId(state, sessionId) {
-      state.user.sessionId = sessionId;
+      state.userData.sessionId = sessionId;
     },
     setUserRefreshToken(state, refreshToken) {
       state.user.refreshToken = refreshToken;
@@ -85,6 +89,11 @@ export default new Vuex.Store({
       listTerms.find(item => item.id == payload).isFavorite = false;
     },
 
+    showError(state, payload) {
+      state.appError.message = payload;
+      state.appError.status = true;
+    },
+
     showModal(state, payload) {
       state.modal.display = true;
       state.modal.id = payload.id;
@@ -124,21 +133,24 @@ export default new Vuex.Store({
   },
   actions: {
     loginByRefreshToken(context) {
-      let { sessionId, baseUrl, projectName } = context;
+      let { refreshToken, baseUrl, projectName } = context.state.userData;
       axios({
         method: "post",
         url: baseUrl + projectName + "/login/byToken",
         headers: {
-          "X-Appercode-Session-Token": sessionId,
           "Content-Type": "application/json",
           Accept: "application/json"
-        }
+        },
+        data: '"' + refreshToken + '"'
       })
         .then(function(response) {
-          context.commit("setUserSessionId", response.sessionId);
+          context.commit("setUserSessionId", response.data.sessionId);
+          context.dispatch("fetchFavoriteListTerms");
         })
         .catch(function(error) {
           console.log(error);
+          context.commit("showError", "Ошибка: попробуйте позже");
+          context.commit("hideLoader");
         });
     },
 
@@ -162,7 +174,10 @@ export default new Vuex.Store({
           context.commit("hideLoader");
         })
         .catch(function(error) {
-          console.log(error.response.status);
+          console.log(error);
+          if (error.response.status == 401) {
+            context.dispatch("loginByRefreshToken");
+          }
           context.commit("hideLoader");
         });
     },
@@ -185,9 +200,13 @@ export default new Vuex.Store({
       })
         .then(function(response) {
           context.commit("createFavoritesIds", response.data);
+          context.dispatch("fetchListTerms");
         })
         .catch(function(error) {
           console.log(error);
+          if (error.response.status == 401) {
+            context.dispatch("loginByRefreshToken");
+          }
         });
     },
     addFavoriteTerm(context, payload) {
@@ -206,7 +225,9 @@ export default new Vuex.Store({
           context.state.modal.isFavorite = true;
           context.commit("hideLoader");
         })
-        .catch(function() {
+        .catch(function(error) {
+          console.log(error);
+          context.commit("showError", "Ошибка: попробуйте позже");
           context.commit("hideLoader");
         });
     },
@@ -227,7 +248,9 @@ export default new Vuex.Store({
           context.state.modal.isFavorite = false;
           context.commit("hideLoader");
         })
-        .catch(function() {
+        .catch(function(error) {
+          console.log(error);
+          context.commit("showError", "Ошибка: попробуйте позже");
           context.commit("hideLoader");
         });
     },
@@ -254,6 +277,7 @@ export default new Vuex.Store({
           context.commit("hideLoader");
         })
         .catch(function(error) {
+          context.commit("showError", "Ошибка: попробуйте позже");
           context.commit("hideLoader");
         });
     }
