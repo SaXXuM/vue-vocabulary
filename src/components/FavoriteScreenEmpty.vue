@@ -35,7 +35,7 @@
     <div class="favorite-screen__title">У вас еще нет избранных терминов</div>
     <div
       class="favorite-screen__subtitle"
-    >Для добавления в избранное воспользуйтесь иконкой звезды рядом с термином</div>
+    >Для добавления в избранное воспользуйтесь иконкой звезды рядом с термином.</div>
   </div>
 </template>
 
@@ -66,6 +66,7 @@ export default {
 }
 .favorite-screen__subtitle {
   margin-top: 10px;
+  padding: 0 16px;
   font-size: 15px;
   line-height: 18px;
   text-align: center;

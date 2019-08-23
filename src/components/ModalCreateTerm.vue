@@ -146,6 +146,7 @@ export default {
     },
 
     sendTerm() {
+      if ((!this.title) || (!this.html)) return;
       this.$store.dispatch("sendTermToServer", {
         title: this.$data.title,
         html: this.$data.html
