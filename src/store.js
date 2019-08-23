@@ -195,7 +195,8 @@ export default new Vuex.Store({
           where: {
             userId: userId
           },
-          include: ["objectId"]
+          include: ["objectId"],
+          take: -1
         }
       })
         .then(function(response) {

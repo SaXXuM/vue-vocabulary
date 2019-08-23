@@ -4,11 +4,19 @@
       autocomplete="off"
       id="search"
       type="text"
-			:searchValue="searchValue"
-      @input="event=>searchValue=event.target.value"
+      ref="srch"
+      :value="searchValue"
+      @input="searchValue = $event.target.value"
       @keyup="setSearchValue"
+      @focus="clearPlaceholder"
+      @blur="restorePlaceholder"
       placeholder="Поиск"
     >
+    <div id="clear" @click="clearInput" class="tap_area" v-show="searchValue.length > 0">
+      <div class="YzOzod">
+        <svg class="lBjYod" viewBox="0 0 24 24"><polygon points="17.8,16.7 16.6,17.9 12,13.3 7.4,17.9 6.2,16.7 10.8,12.1 6.2,7.5 7.4,6.3 12,11 16.6,6.4 17.8,7.6 13.2,12.2"></polygon></svg>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -16,7 +24,9 @@
 export default {
   name: "SearchBar",
   data() {
-    return { searchValue: "" };
+    return { 
+      searchValue: "" 
+    };
   },
   methods: {
     setSearchValue() {
@@ -24,6 +34,17 @@ export default {
         "setSearchValue",
         this.searchValue.toLowerCase().trim()
       );
+    },
+    clearPlaceholder(event) {
+      event.target.setAttribute('placeholder', '')
+    },
+    restorePlaceholder(event) {
+      event.target.setAttribute('placeholder', 'Поиск')
+    },
+    clearInput() {
+      this.searchValue = '';
+      this.setSearchValue();
+      this.$nextTick(() => this.$refs.srch.focus())
     }
   }
 };
@@ -43,5 +64,32 @@ export default {
   border: 0;
   border-radius: 5px;
   font-size: 16px;
+}
+.tap_area {
+    height: 24px;
+    width: 24px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.YzOzod {
+    background-color: rgba(0, 0, 0, .3);
+    border-radius: 50%;
+    height: 18px;
+    width: 18px;
+    z-index: 2;
+
+    transition: 350ms all;
+
+}
+.lBjYod {
+    transition: 350ms all;
+}
+.lBjYod {
+    fill: #f3f3f3;
 }
 </style>
