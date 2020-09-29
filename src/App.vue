@@ -2,7 +2,7 @@
   <div id="app">
     <AppError/>
     <Loader v-if="displayLoader"/>
-    <div class="list-terms" v-show="displayFavoriteScreen">
+    <div v-show="displayFavoriteScreen">
       <SearchBar/>
       <ListTerms/>
       <ModalTerm v-if="displayModal"/>
@@ -73,8 +73,21 @@ export default {
 * {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  box-sizing: border-box;
 }
+
+html {
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+  overflow: scroll;
+}
+ 
 #app {
   margin-bottom: 88px;
 }

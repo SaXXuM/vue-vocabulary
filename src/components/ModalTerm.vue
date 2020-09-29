@@ -9,11 +9,12 @@
           </div>
         </div>
       </div>
-      <div class="list-terms__item-modal-middle">{{description}}</div>
+      <div class="list-terms__item-modal-middle" v-html="description" v-scroll-lock="isModalShowing"></div>
       <div
         class="list-terms__item-modal-bottom"
-        @click="toggleFavorite(id)"
-      >{{isFavorite ? remove : add }}</div>
+        @click="toggleFavorite(id)">
+          {{isFavorite ? remove : add }}
+      </div>
     </div>
   </div>
 </template>
@@ -36,6 +37,9 @@ export default {
   methods: {
     hiddenModal() {
       this.$store.commit("hiddenModal");
+    },
+    isModalShowing() {
+      return this.$store.state.modal.display;
     },
     toggleFavorite(id) {
       return this.isFavorite
@@ -62,15 +66,17 @@ export default {
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow: hidden;
   background-color: rgba(0, 0, 0, 0.3);
 }
 
 .list-terms__item-modal-content {
   background-color: #fff;
-  margin: 5% 16px;
+  margin: 0 8px;
   border-radius: 4px;
   width: 100%;
+  max-height: 95vh;
+  overflow: hidden;
 }
 
 .list-terms__item-modal-top {
@@ -86,6 +92,9 @@ export default {
   font-weight: 700;
   color: #000000;
   position: relative;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .modal-close {
@@ -100,18 +109,25 @@ export default {
 
 .list-terms__item-modal-middle {
   padding: 17px 15px;
+  max-height: calc(95vh - 97px);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  word-break: break-all;
 }
 
 .list-terms__item-modal-middle p {
   margin-bottom: 5px;
 }
+
 .list-terms__item-modal-bottom {
   border-top: 1px solid #c8c7cc;
   text-align: center;
   font-size: 16px;
+  line-height: 20px;
   color: #26a18f;
   font-weight: normal;
   padding: 12px 16px;
+  height: 46px;
 }
 </style>
 
