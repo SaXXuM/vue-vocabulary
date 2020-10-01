@@ -112,7 +112,7 @@ export default {
   max-height: calc(95vh - 97px);
   overflow-y: scroll;
   overflow-x: hidden;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 .list-terms__item-modal-middle p {
