@@ -2,7 +2,7 @@
   <div class="list-terms__item_wrapper">
     <div class="list-terms__item" @click="showModal(id, title, description, isFavorite)">
       <div class="list-terms__item-title">{{title}}</div>
-      <div class="list-terms__item-subtitle">{{description}}</div>
+      <div class="list-terms__item-subtitle">{{stripHtml(description)}}</div>
     </div>
     <ButtonAddToFavorite :id="id"/>
   </div>
@@ -40,6 +40,11 @@ export default {
     },
     deleteFavoriteTerm(id) {
       this.$store.dispatch("deleteFavoriteTerm", id);
+    },
+    stripHtml(html) {
+      var tmp = document.createElement("DIV");
+      tmp.innerHTML = html;
+      return tmp.textContent || tmp.innerText || "";
     }
   }
 };
