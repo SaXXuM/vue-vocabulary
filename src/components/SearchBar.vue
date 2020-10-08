@@ -7,7 +7,7 @@
       ref="srch"
       :value="searchValue"
       @input="searchValue = $event.target.value"
-      @keyup="setSearchValue"
+      @keyup="setSearchValueDebounced"
       @focus="clearPlaceholder"
       @blur="restorePlaceholder"
       placeholder="Поиск"
@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import debounce from "lodash.debounce";
+
 export default {
   name: "SearchBar",
   data() {
@@ -28,12 +30,15 @@ export default {
       searchValue: "" 
     };
   },
+  computed: {
+    setSearchValueDebounced: function() {
+      const DELAY = 800;
+      return debounce(this.setSearchValue, DELAY);
+    }
+  },
   methods: {
     setSearchValue() {
-      this.$store.commit(
-        "setSearchValue",
-        this.searchValue.toLowerCase().trim()
-      );
+      this.$store.commit("setSearchValue", this.searchValue.toLowerCase().trim());
     },
     clearPlaceholder(event) {
       event.target.setAttribute('placeholder', '')

@@ -1,6 +1,6 @@
 <template>
   <div class="modal-create-term_wrapper">
-    <div class="modal-create-term">
+    <div class="modal-create-term" v-scroll-lock="isModalShowing">
       <div class="modal-create-term__top">Добавить термин
         <div class="modal-close" @click="hiddenModalCreateTerm">
           <svg
@@ -137,7 +137,8 @@ export default {
   },
   computed: {
     ...mapState({
-      sended: state => state.modalCreateTerm.sended
+      sended: state => state.modalCreateTerm.sended,
+      isModalShowing: state => state.modalCreateTerm.display
     })
   },
   methods: {
